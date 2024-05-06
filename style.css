@@ -1,0 +1,27 @@
+body {
+    background-color: rgb(77, 77, 77);
+    text-align: center;
+    color: whitesmoke;
+}
+#oyunAlani {
+    width: 400px;
+    height: 400px;
+    border: 10px solid black;
+    border-radius: 10px;
+    background-color: midnightblue;
+    position: relative;
+    top: 35%;
+    left: 35%;
+}
+.yilan {
+    width: 10px;
+    height: 10px;
+    background-color: rgb(0, 209, 0);
+    position: absolute;
+}
+#yem {
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    position: absolute;
+}
