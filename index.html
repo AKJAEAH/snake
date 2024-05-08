@@ -4,7 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yılan Oyunu</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-color: rgb(77, 77, 77);
+            text-align: center;
+            color: whitesmoke;
+        }
+        #oyunAlani {
+            width: 80vw; /* Genişlik */
+            height: 80vh; /* Yükseklik */
+            border: 10px solid black;
+            border-radius: 10px;
+            background-color: midnightblue;
+            position: relative;
+            top: 10%;
+            left: 10%;
+        }
+        .yilan {
+            width: 10px;
+            height: 10px;
+            background-color: rgb(0, 209, 0);
+            position: absolute;
+        }
+        #yem {
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            position: absolute;
+        }
+        .yonTusu {
+            width: 50px;
+            height: 50px;
+            border: 2px solid white;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            line-height: 50px;
+        }
+    </style>
 </head>
 <body>
     <h1>Yılan Oyunu</h1>
@@ -13,6 +52,12 @@
         <div id="yem"></div>
     </div>
     <p>Puan: <span id="puan">0</span></p>
+    <div id="yonTuslari">
+        <div class="yonTusu" id="yukari">↑</div>
+        <div class="yonTusu" id="asagi">↓</div>
+        <div class="yonTusu" id="sag">→</div>
+        <div class="yonTusu" id="sol">←</div>
+    </div>
 
     <script>
         let x = 10;
@@ -28,67 +73,87 @@
         const puanGoster = document.getElementById('puan');
         let hareket;
 
-        document.addEventListener('keydown', yonBelirle);
+        document.addEventListener('keydown', klavyeYonBelirle);
+        document.getElementById('yukari').addEventListener('click', hareketYukari);
+        document.getElementById('asagi').addEventListener('click', hareketAsagi);
+        document.getElementById('sag').addEventListener('click', hareketSaga);
+        document.getElementById('sol').addEventListener('click', hareketSola);
 
-        function yonBelirle(event) {
+        function klavyeYonBelirle(event) {
             switch (event.key) {
                 case 'ArrowUp':
-                    clearInterval(hareket);
-                    hareket = setInterval(() => {
-                        y -= hiz;
-                        if (y <= 0) {
-                            clearInterval(hareket);
-                            alert('Oyun Bitti! Puanınız: ' + puan);
-                            location.reload();
-                            return;
-                        }
-                        yilan.style.top = y + 'px';
-                        yilanYemCarpismaKontrolu();
-                    }, 100);
+                    hareketYukari();
                     break;
                 case 'ArrowDown':
-                    clearInterval(hareket);
-                    hareket = setInterval(() => {
-                        y += hiz;
-                        if (y >= oyunAlani.clientHeight) {
-                            clearInterval(hareket);
-                            alert('Oyun Bitti! Puanınız: ' + puan);
-                            location.reload();
-                            return;
-                        }
-                        yilan.style.top = y + 'px';
-                        yilanYemCarpismaKontrolu();
-                    }, 100);
+                    hareketAsagi();
                     break;
                 case 'ArrowLeft':
-                    clearInterval(hareket);
-                    hareket = setInterval(() => {
-                        x -= hiz;
-                        if (x <= 0) {
-                            clearInterval(hareket);
-                            alert('Oyun Bitti! Puanınız: ' + puan);
-                            location.reload();
-                            return;
-                        }
-                        yilan.style.left = x + 'px';
-                        yilanYemCarpismaKontrolu();
-                    }, 100);
+                    hareketSola();
                     break;
                 case 'ArrowRight':
-                    clearInterval(hareket);
-                    hareket = setInterval(() => {
-                        x += hiz;
-                        if (x >= oyunAlani.clientHeight) {
-                            clearInterval(hareket);
-                            alert('Oyun Bitti! Puanınız: ' + puan);
-                            location.reload();
-                            return;
-                        }
-                        yilan.style.left = x + 'px';
-                        yilanYemCarpismaKontrolu();
-                    }, 100);
+                    hareketSaga();
                     break;
             }
+        }
+
+        function hareketYukari() {
+            clearInterval(hareket);
+            hareket = setInterval(() => {
+                y -= hiz;
+                if (y <= 0) {
+                    clearInterval(hareket);
+                    alert('Oyun Bitti! Puanınız: ' + puan);
+                    location.reload();
+                    return;
+                }
+                yilan.style.top = y + 'px';
+                yilanYemCarpismaKontrolu();
+            }, 100);
+        }
+
+        function hareketAsagi() {
+            clearInterval(hareket);
+            hareket = setInterval(() => {
+                y += hiz;
+                if (y >= oyunAlani.clientHeight) {
+                    clearInterval(hareket);
+                    alert('Oyun Bitti! Puanınız: ' + puan);
+                    location.reload();
+                    return;
+                }
+                yilan.style.top = y + 'px';
+                yilanYemCarpismaKontrolu();
+            }, 100);
+        }
+
+        function hareketSola() {
+            clearInterval(hareket);
+            hareket = setInterval(() => {
+                x -= hiz;
+                if (x <= 0) {
+                    clearInterval(hareket);
+                    alert('Oyun Bitti! Puanınız: ' + puan);
+                    location.reload();
+                    return;
+                }
+                yilan.style.left = x + 'px';
+                yilanYemCarpismaKontrolu();
+            }, 100);
+        }
+
+        function hareketSaga() {
+            clearInterval(hareket);
+            hareket = setInterval(() => {
+                x += hiz;
+                if (x >= oyunAlani.clientWidth) {
+                    clearInterval(hareket);
+                    alert('Oyun Bitti! Puanınız: ' + puan);
+                    location.reload();
+                    return;
+                }
+                yilan.style.left = x + 'px';
+                yilanYemCarpismaKontrolu();
+            }, 100);
         }
 
         function yilanYemCarpismaKontrolu() {
